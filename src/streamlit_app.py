@@ -1,18 +1,23 @@
-from dis import dis
-from components import display_list_with_input_options
 import hydralit as hy
-from typing import List
+from components import display_list_with_input_options
+from collections import defaultdict
+from algorithm import load_data, common_courses, check_clash
 from utils import *
-from components import *
 
 if 'COURSES' not in hy.session_state:
-    hy.session_state['COURSES'] =  {"CM2101": Course(name='Programming In C', code='CM2101'), "CM2103": Course(name='Linux Basics', code='CM2103')}
+    courses, *_ = load_data()
+    # hy.session_state['COURSES'] = {}
+    hy.session_state['COURSES'] = {c.code: c for c in courses}
 
 if 'DEPARTMENTS' not in hy.session_state:
-    hy.session_state['DEPARTMENTS'] = []
+    *_, dept = load_data()
+    hy.session_state['DEPARTMENTS'] = dept
+    # hy.session_state['DEPARTMENTS'] = []
 
 if 'INSTRUCTORS' not in hy.session_state:
-    hy.session_state['INSTRUCTORS'] = [Instructor(name='Suhas', courses=list(hy.session_state.COURSES.values()))]
+    _, faculty, _ = load_data()
+    hy.session_state['INSTRUCTORS'] = faculty
+    # hy.session_state['INSTRUCTORS'] = []
 
 INSTRUCTORS = hy.session_state.INSTRUCTORS
 COURSES = hy.session_state.COURSES
@@ -22,7 +27,13 @@ app = hy.HydraApp(title='Time Table Generator', favicon=":chart:", use_navbar=Tr
 
 @app.addapp(title="HOME", is_home=True)
 def home():
-    hy.write('Hello from app 1')
+    hy.header('Time Table Generator')
+    hy.markdown('''
+        This is a genuine project created by Yash Thakare ([@Yash24T](https://github.com/yash24t)) and Yash Pawar ([@yashppawar](https://github.com/yashppawar))
+        
+        The code for this project is available at [github.com/yp-ac/time-table-generator](https://github.com/yp-ac/time-table-generator)
+    ''')
+
 
 ###### DEPARTMENTS PAGE ######
 @app.addapp(title="Department")
@@ -104,6 +115,57 @@ def courses_page():
 
     display_list_with_input_options(COURSES.values(), ["Course Code", "Course Name", "num hours"], processor, course_to_string, key='cp')
 
+
+@app.addapp(title="Time Table")
+def time_table_gen_page():
+    hy.header("Time Table(s)")
+    
+    if hy.button("Generate Time Table"):
+        common_course = common_courses(DEPARTMENTS)
+
+        time_tables = defaultdict(lambda: TimeTable())
+
+        sort_var = {k: len(v) for k, v in common_course.items()}
+        cc_sorted = sorted(common_course , key=sort_var.__getitem__, reverse=True)
+        print(cc_sorted)    
+
+        for c in cc_sorted:
+            dept_ = common_course[c]
+            for dept in DEPARTMENTS:
+                if dept.number not in dept_: continue
+
+                for sec in dept.sections:
+                    for _ in range(COURSES[c].hours):
+                        row, col = time_tables[sec].insert_random(c)
+                        while check_clash(time_tables, row, col, c):
+                            time_tables[sec][row, col] = None
+                            row, col = time_tables[sec].insert_random(c)
+
+                            if row == -1 or col == -1: raise IndexError("No More free lectures in the timetable")
+
+        uncommon_courses = set(list(COURSES.keys())) - set(cc_sorted)
+        print(uncommon_courses)
+        for u in uncommon_courses:
+            dept = list(filter(lambda dept: COURSES[u] in dept.courses, DEPARTMENTS))[0]
+            for sec in dept.sections:
+                print(sec)
+                for _ in range(COURSES[u].hours):
+                    row, col = time_tables[sec].insert_random(u)
+                    while check_clash(time_tables, row, col, u):
+                        print(u, row, col)
+                        time_tables[sec][row, col] = None
+                        row, col = time_tables[sec].insert_random(u)
+
+                        if row == -1 or col == -1: raise IndexError("No More free lectures in the timetable")
+
+        def data_processor(data):
+            if data is None: 
+                return ''
+            return COURSES[data].name
+
+        for k, tt in time_tables.items():
+            hy.write(f"Section: **{k}**")
+            hy.table(tt.to_dataframe(data_processor))
 
 if __name__ == '__main__':
     app.run()

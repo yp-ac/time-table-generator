@@ -2,11 +2,6 @@
     "courses": [
         {
             "name": "Applied Mathematics 1", 
-            "code": "SC1101", 
-            "hours": 3
-        },
-        {
-            "name": "Applied Mathematics 2", 
             "code": "SC1102", 
             "hours": 4
         },
@@ -16,13 +11,8 @@
             "hours": 6
         },
         {
-            "name": "Linux Basics", 
-            "code": "CM2103", 
-            "hours": 2
-        },
-        {
-            "name": "Hardware Mechanics", 
-            "code": "ME2101", 
+            "name": "Fundamentals of Mechanics", 
+            "code": "ME1101", 
             "hours": 4
         },
         {
@@ -31,28 +21,50 @@
             "hours": 6
         },
         {
-            "name": "EVS", 
+            "name": "Environmental Science", 
             "code": "AU4101", 
             "hours": 3
+        },
+        {
+            "name": "Communication Skills",
+            "code": "HU1101",
+            "hours": 3
+        },
+        {
+            "name": "Engineering Graphics",
+            "code": "ME2101",
+            "hours": 5
+        },
+        {
+            "name": "Linux Basic",
+            "code": "CM2103",
+            "hours": 4
         }
-
     ],
     "faculty": [
         {
             "name": "Jhon Doe", 
-            "courses": ["SC1101", "SC1102"]
+            "courses": ["SC1102"]
         },
         {
             "name": "Tarun Kumar", 
             "courses": ["CM2101", "CM2103"]
         },
         {
-            "name": "Tarun Varma", 
+            "name": "Kunal Sharma", 
             "courses": ["SC1103", "AU4101"]
         },
         {
-            "name": "Jane Doe", 
-            "courses": ["ME2101", "SC1103"]
+            "name": "Yash Jagtap", 
+            "courses": ["ME1101", "SC1103"]
+        },
+        {
+            "name": "Dr. DM Khanna",
+            "courses": ["HU1101"]
+        },
+        {
+            "name": "Shardha Bonde",
+            "courses": ["ME2101"]
         }
     ],
     "departments": [
@@ -61,47 +73,26 @@
             "number": 6,
             "courses": [
                 "SC1102", 
-                "CM2101", 
-                "CM2103",
+                "CM2101",
+                "CM2103", 
                 "SC1103",
-                "AU4101"
+                "AU4101",
+                "HU1101"
             ],
             "sections": ["H", "G", "N"]
-        },
-        {
-            "name": "Information Technology",
-            "number": 7,
-            "courses": [
-                "SC1101", 
-                "CM2101", 
-                "CM2103",
-                "SC1103"
-            ],
-            "sections": ["I"]
         },
         {
             "name": "Mechanical Engineering",
             "number": 8,
             "courses": [
-                "SC1101", 
                 "SC1102",
                 "ME2101",
                 "SC1103",
-                "AU4101"
+                "AU4101",
+                "HU1101",
+                "ME1101"
             ],
             "sections": ["M"]
-        },
-        {
-            "name": "Electronic Engineering",
-            "number": 9,
-            "courses": [
-                "SC1101",
-                "SC1102",
-                "ME2101",
-                "CM2101",
-                "SC1103"
-            ],
-            "sections": ["E"]
         }
     ]
 }

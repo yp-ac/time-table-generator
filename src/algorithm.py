@@ -1,14 +1,13 @@
-import time
 from utils import *
 from pathlib import Path
 from collections import defaultdict
-from random import randint, seed
-from datetime import datetime
 import json
+from functools import lru_cache
 
 class FacultyOverloadError(Exception):
     pass
 
+@lru_cache(50)
 def load_data(filename=Path('dummy-data.json')):
     with open(filename) as f:
         data = json.loads(f.read())
@@ -83,6 +82,7 @@ if __name__ == '__main__':
     courses, instructor, depts = load_data()
     load_faculty = calculate_load(depts, instructor)
 
+    courses = {c.code : c for c in courses}
     # for k, v in load_faculty.items():
     #     if v > 22:
     #         raise FacultyOverloadError(f"{k} has too much work load!")
@@ -95,19 +95,37 @@ if __name__ == '__main__':
     cc_sorted = sorted(common_course , key=sort_var.__getitem__, reverse=True)
     print(cc_sorted)    
 
+    # O(n^5)
+    # O(n^2)  worst case
+
     for c in cc_sorted:
         dept_ = common_course[c]
         for dept in depts:
-            if dept.number in dept_:
-                for sec in dept.sections:
-                    for _ in range(get_course(c).hours):
-                        row, col = time_tables[sec].insert_random(c)
-                        while check_clash(time_tables, row, col, c):
-                            time_tables[sec][row, col] = None
-                            row, col = time_tables[sec].insert_random(c)
+            if dept.number not in dept_: continue
 
-                            if row == -1 or col == -1: raise IndexError("No More free lectures in the timetable")
-            break
+            for sec in dept.sections:
+                for _ in range(courses[c].hours):
+                    row, col = time_tables[sec].insert_random(c)
+                    while check_clash(time_tables, row, col, c):
+                        time_tables[sec][row, col] = None
+                        row, col = time_tables[sec].insert_random(c)
+
+                        if row == -1 or col == -1: raise IndexError("No More free lectures in the timetable")
+            # break
+    uncommon_courses = set(list(courses.keys())) - set(cc_sorted)
+    print(uncommon_courses)
+    for u in uncommon_courses:
+        dept = list(filter(lambda dept: courses[u] in dept.courses, depts))[0]
+        for sec in dept.sections:
+            print(sec)
+            for _ in range(courses[u].hours):
+                row, col = time_tables[sec].insert_random(u)
+                while check_clash(time_tables, row, col, u):
+                    print(u, row, col)
+                    time_tables[sec][row, col] = None
+                    row, col = time_tables[sec].insert_random(u)
+
+                    if row == -1 or col == -1: raise IndexError("No More free lectures in the timetable")
     for k, v in time_tables.items():
         print(k)
         print(v)
