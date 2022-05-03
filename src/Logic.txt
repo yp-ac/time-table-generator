@@ -1,0 +1,8 @@
+Inputs:
+Structs-> Departments
+
+source activate ./env
+pip install streamlit
+pip install pydantic
+pip install git+https://github.com/Patarimi/hydralit.git
+$ streamlit run streamlit_app.py

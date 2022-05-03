@@ -1,0 +1,107 @@
+{
+    "courses": [
+        {
+            "name": "Applied Mathematics 1", 
+            "code": "SC1101", 
+            "hours": 3
+        },
+        {
+            "name": "Applied Mathematics 2", 
+            "code": "SC1102", 
+            "hours": 4
+        },
+        {
+            "name": "Programming In C", 
+            "code": "CM2101", 
+            "hours": 6
+        },
+        {
+            "name": "Linux Basics", 
+            "code": "CM2103", 
+            "hours": 2
+        },
+        {
+            "name": "Hardware Mechanics", 
+            "code": "ME2101", 
+            "hours": 4
+        },
+        {
+            "name": "Engineering Physics", 
+            "code": "SC1103", 
+            "hours": 6
+        },
+        {
+            "name": "EVS", 
+            "code": "AU4101", 
+            "hours": 3
+        }
+
+    ],
+    "faculty": [
+        {
+            "name": "Jhon Doe", 
+            "courses": ["SC1101", "SC1102"]
+        },
+        {
+            "name": "Tarun Kumar", 
+            "courses": ["CM2101", "CM2103"]
+        },
+        {
+            "name": "Tarun Varma", 
+            "courses": ["SC1103", "AU4101"]
+        },
+        {
+            "name": "Jane Doe", 
+            "courses": ["ME2101", "SC1103"]
+        }
+    ],
+    "departments": [
+        {
+            "name": "Computer Engineering",
+            "number": 6,
+            "courses": [
+                "SC1102", 
+                "CM2101", 
+                "CM2103",
+                "SC1103",
+                "AU4101"
+            ],
+            "sections": ["H", "G", "N"]
+        },
+        {
+            "name": "Information Technology",
+            "number": 7,
+            "courses": [
+                "SC1101", 
+                "CM2101", 
+                "CM2103",
+                "SC1103"
+            ],
+            "sections": ["I"]
+        },
+        {
+            "name": "Mechanical Engineering",
+            "number": 8,
+            "courses": [
+                "SC1101", 
+                "SC1102",
+                "ME2101",
+                "SC1103",
+                "AU4101"
+            ],
+            "sections": ["M"]
+        },
+        {
+            "name": "Electronic Engineering",
+            "number": 9,
+            "courses": [
+                "SC1101",
+                "SC1102",
+                "ME2101",
+                "CM2101",
+                "SC1103"
+            ],
+            "sections": ["E"]
+        }
+    ]
+}
