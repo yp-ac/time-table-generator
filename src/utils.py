@@ -83,10 +83,10 @@ class TimeTable:
             return r, c
 
 
-    def insert_first(self, newvalue, old: Tuple[int, int] = None) -> Tuple[int, int]:
-        if old is None: old = (0, 0)
-        r = 0 or old[0]
-        c = 0 or old[1]
+    def insert_first(self, newvalue) -> Tuple[int, int]:
+        r = 0
+        c = 0
+
         while (self[r][c] is not None):
             c += 1
 

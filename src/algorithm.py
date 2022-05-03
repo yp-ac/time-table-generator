@@ -24,17 +24,14 @@ def load_data(filename=Path('dummy-data.json')):
     return courses, instructor, dept
 
 def common_courses(departments):
-    # (dept.num, course.name)
-    # course -> dept.courses
-    #        -> dept.number
     common_courses = defaultdict(lambda: set())
 
-    for dept in departments: # co
-        for dept_cmp in departments: # it
+    for dept in departments: 
+        for dept_cmp in departments: 
             if dept_cmp == dept: continue
 
-            for course in dept.courses: # am2, pic, lb
-                for course_cmp in dept_cmp.courses: # am1, pic, lb
+            for course in dept.courses: 
+                for course_cmp in dept_cmp.courses: 
                     if course == course_cmp: 
                         common_courses[course.code].add(dept.number)
                         common_courses[course.code].add( dept_cmp.number)
@@ -73,7 +70,6 @@ def calculate_load(departments, instructors):
 def check_clash(time_tables, row, col, course):
     cnt = 0
     for tt in time_tables.values():
-        # print(tt[row, col])
         if tt[int(row)][int(col)] == course: cnt += 1
 
     return cnt != 1
@@ -94,9 +90,6 @@ if __name__ == '__main__':
     sort_var = {k: len(v) for k, v in common_course.items()}
     cc_sorted = sorted(common_course , key=sort_var.__getitem__, reverse=True)
     print(cc_sorted)    
-
-    # O(n^5)
-    # O(n^2)  worst case
 
     for c in cc_sorted:
         dept_ = common_course[c]
@@ -129,8 +122,4 @@ if __name__ == '__main__':
     for k, v in time_tables.items():
         print(k)
         print(v)
-    # for r in range(5):
-    #     for c in range(7):
-    #         print(r, c, time_tables['N'][r][c])
-
-    # print(time_tables['N'])
+ 

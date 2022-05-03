@@ -6,18 +6,15 @@ from utils import *
 
 if 'COURSES' not in hy.session_state:
     courses, *_ = load_data()
-    # hy.session_state['COURSES'] = {}
     hy.session_state['COURSES'] = {c.code: c for c in courses}
 
 if 'DEPARTMENTS' not in hy.session_state:
     *_, dept = load_data()
     hy.session_state['DEPARTMENTS'] = dept
-    # hy.session_state['DEPARTMENTS'] = []
 
 if 'INSTRUCTORS' not in hy.session_state:
     _, faculty, _ = load_data()
     hy.session_state['INSTRUCTORS'] = faculty
-    # hy.session_state['INSTRUCTORS'] = []
 
 INSTRUCTORS = hy.session_state.INSTRUCTORS
 COURSES = hy.session_state.COURSES
